@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 const Container = styled.div<{ isDarkMode: boolean }>`
-  display: flex;
-  flex-direction: column;
   flex: 1;
-
   padding: 1.5rem;
+  display: flex;
+  box-sizing: border-box;
+  flex-direction: column;
+  max-height: 100%;
 
   ${({ isDarkMode }) =>
     isDarkMode &&
@@ -24,6 +26,7 @@ const LinkItem = styled(Link)<{ isDarkMode: boolean }>`
 `;
 
 const Footer = styled.footer`
+  border-top: 2px solid #222;
   margin-top: auto;
 `;
 
@@ -37,13 +40,14 @@ interface PhoneProps {
 }
 
 const App = (props: PhoneProps) => {
+  const navigate = useNavigate();
   const [count, setCount] = useState(0);
+
   return (
     <Container isDarkMode={props.settings.isDarkMode}>
-      <LinkItem to="/" isDarkMode={props.settings.isDarkMode}>
-        Close
-      </LinkItem>
-
+      <button onClick={() => navigate('/')} style={{ alignSelf: 'flex-start' }}>
+        Back
+      </button>
       <h1>App title</h1>
 
       <p>Language is: {props.settings.language}</p>

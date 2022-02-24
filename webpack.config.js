@@ -6,11 +6,11 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 // HMR
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 const ReactRefreshTypeScript = require('react-refresh-typescript');
-const isDevelopment = true;
+const isDevelopment = process.env.NODE_ENV === 'development';
 
 module.exports = {
   entry: './src/bootstrap.ts',
-  mode: 'development',
+  mode: isDevelopment ? 'development' : 'production',
   devtool: 'inline-source-map',
   module: {
     rules: [
@@ -31,6 +31,14 @@ module.exports = {
           },
         ],
       },
+      {
+        test: /\.(png|jpe?g|gif)$/i,
+        use: [
+          {
+            loader: 'file-loader',
+          },
+        ],
+      },
     ],
   },
   resolve: {
@@ -42,7 +50,7 @@ module.exports = {
   },
   plugins: [
     new ModuleFederationPlugin({
-      name: 'home',
+      name: 'weather',
       filename: 'remoteEntry.js',
       exposes: {
         './config': './npwd.config',
@@ -67,8 +75,9 @@ module.exports = {
       cache: false,
       template: './index.html',
     }),
-    new ReactRefreshWebpackPlugin(),
-  ],
+    isDevelopment && new ReactRefreshWebpackPlugin(),
+  ].filter(Boolean),
+
   devServer: {
     port: 3002,
     headers: {

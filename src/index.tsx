@@ -5,12 +5,35 @@ import '../npwd.config';
 import { BrowserRouter } from 'react-router-dom';
 import styled from 'styled-components';
 import App from './App';
+import image from './bg.png';
+
+const Container = styled.div`
+  position: relative;
+  width: 500px;
+  height: 1000px;
+`;
+const Background = styled.div<{ src: string }>`
+  background: url(${({ src }) => src});
+  position: absolute;
+  z-index: 1;
+  width: 500px;
+  height: 1000px;
+  pointer-events: none;
+`;
 
 const AppContainer = styled.div`
+  z-index: 2;
+  position: absolute;
+  bottom: 100px;
+  left: 50px;
+  right: 50px;
+  top: 100px;
   display: flex;
   flex-direction: column;
-  width: 375px;
-  height: 667px;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  border-radius: 20px;
 `;
 
 // Default settings will come from package. This is for development purposes.
@@ -21,14 +44,13 @@ const settings = {
 
 const Root = () => (
   <BrowserRouter>
-    <AppContainer>
-      <App settings={settings} />
-    </AppContainer>
+    <Container>
+      <Background src={image} />
+      <AppContainer>
+        <App settings={settings} />
+      </AppContainer>
+    </Container>
   </BrowserRouter>
 );
 
 ReactDOM.render(<Root />, document.getElementById('root'));
-
-if (module.hot) {
-  module.hot.accept();
-}

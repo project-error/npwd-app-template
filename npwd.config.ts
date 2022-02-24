@@ -11,10 +11,10 @@ interface Settings {
 }
 
 export default (settings: Settings) => ({
-  id: 'RACING',
+  id: 'WEATHER',
   nameLocale: localizedAppName[settings?.language ?? defaultLanguage],
   color: '#222',
   backgroundColor: '#333',
-  path: '/racing',
+  path: '/weather',
   app: App,
 });

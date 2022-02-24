@@ -8,6 +8,7 @@
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.4",
     "@types/react": "^17.0.39",
     "@types/react-dom": "^17.0.11",
+    "@types/react-router": "^5.1.18",
     "@types/react-router-dom": "^5.3.3",
     "@types/styled-components": "^5.1.23",
     "@types/webpack-env": "^1.16.3",
@@ -26,12 +27,13 @@
   },
   "scripts": {
     "start": "webpack-cli serve",
-    "build": "webpack --mode production",
-    "dev": "webpack-dev-server",
+    "build": "NODE_ENV=production webpack",
+    "dev": "NODE_ENV=development webpack-dev-server",
     "serve": "serve dist -p 3002",
     "clean": "rm -rf dist"
   },
   "dependencies": {
+    "file-loader": "^6.2.0",
     "prettier": "^2.5.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
