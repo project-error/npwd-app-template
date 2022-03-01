@@ -9,5 +9,6 @@
     "allowJs": true,
     "moduleResolution": "node",
     "allowSyntheticDefaultImports": true
-  }
+  },
+  "exclude": ["server", "client"]
 }

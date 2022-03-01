@@ -1,3 +1,4 @@
+const path = require('path');
 const webpack = require('webpack');
 const { ModuleFederationPlugin } = webpack.container;
 const deps = require('./package.json').dependencies;
@@ -33,6 +34,7 @@ module.exports = {
       },
       {
         test: /\.(png|jpe?g|gif)$/i,
+        exclude: /node_modules/,
         use: [
           {
             loader: 'file-loader',
@@ -45,6 +47,7 @@ module.exports = {
     extensions: ['.tsx', '.ts', '.js'],
   },
   output: {
+    path: path.resolve(__dirname, 'release'),
     publicPath: 'auto',
     clean: true,
   },
@@ -73,7 +76,7 @@ module.exports = {
     }),
     new HtmlWebpackPlugin({
       cache: false,
-      template: './index.html',
+      template: './src/index.html',
     }),
     isDevelopment && new ReactRefreshWebpackPlugin(),
   ].filter(Boolean),

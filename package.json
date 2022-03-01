@@ -30,7 +30,7 @@
   },
   "scripts": {
     "start": "webpack-cli serve",
-    "build": "esbuild src/index.tsx --outdir=dist/html --target=es6 --bundle --loader:.png=dataurl",
+    "build": "webpack --mode=production",
     "dev": "webpack-dev-server --mode=development",
     "serve": "serve dist -p 3002",
     "clean": "rm -rf dist",
