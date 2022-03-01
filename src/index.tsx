@@ -6,6 +6,7 @@ import { BrowserRouter } from 'react-router-dom';
 import styled from 'styled-components';
 import App from './App';
 import image from './bg.png';
+import { NuiProvider } from 'react-fivem-hooks';
 
 const Container = styled.div`
   position: relative;
@@ -44,12 +45,14 @@ const settings = {
 
 const Root = () => (
   <BrowserRouter>
-    <Container>
-      <Background src={image} />
-      <AppContainer>
-        <App settings={settings} />
-      </AppContainer>
-    </Container>
+    <NuiProvider>
+      <Container>
+        <Background src={image} />
+        <AppContainer>
+          <App settings={settings} />
+        </AppContainer>
+      </Container>
+    </NuiProvider>
   </BrowserRouter>
 );
 

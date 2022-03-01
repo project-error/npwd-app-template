@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNuiEvent } from 'react-fivem-hooks';
 import { useNavigate } from 'react-router';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
@@ -10,6 +11,8 @@ const Container = styled.div<{ isDarkMode: boolean }>`
   box-sizing: border-box;
   flex-direction: column;
   max-height: 100%;
+  background-color: #fafafa;
+  color: #212121;
 
   ${({ isDarkMode }) =>
     isDarkMode &&
@@ -26,7 +29,6 @@ const LinkItem = styled(Link)<{ isDarkMode: boolean }>`
 `;
 
 const Footer = styled.footer`
-  border-top: 2px solid #222;
   margin-top: auto;
 `;
 
@@ -43,12 +45,16 @@ const App = (props: PhoneProps) => {
   const navigate = useNavigate();
   const [count, setCount] = useState(0);
 
+  const { data } = useNuiEvent<string>({ event: 'RANDOM' });
+
   return (
     <Container isDarkMode={props.settings.isDarkMode}>
       <button onClick={() => navigate('/')} style={{ alignSelf: 'flex-start' }}>
         Back
       </button>
       <h1>App title</h1>
+
+      <h2>Data from client: {data}</h2>
 
       <p>Language is: {props.settings.language}</p>
 
