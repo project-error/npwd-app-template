@@ -1,4 +1,5 @@
 import App from './src/App';
+import {AppIcon} from "./icon";
 
 const defaultLanguage = 'en';
 const localizedAppName = {
@@ -16,5 +17,6 @@ export default (settings: Settings) => ({
   color: '#222',
   backgroundColor: '#333',
   path: '/weather',
+  icon: AppIcon,
   app: App,
 });
