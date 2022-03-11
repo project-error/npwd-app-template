@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useNuiEvent } from 'react-fivem-hooks';
-import { useNavigate } from 'react-router';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 
 const Container = styled.div<{ isDarkMode: boolean }>`
@@ -42,14 +41,14 @@ interface PhoneProps {
 }
 
 const App = (props: PhoneProps) => {
-  const navigate = useNavigate();
+  const history = useHistory();
   const [count, setCount] = useState(0);
 
   const { data } = useNuiEvent<string>({ event: 'RANDOM' });
 
   return (
     <Container isDarkMode={props.settings.isDarkMode}>
-      <button onClick={() => navigate('/')} style={{ alignSelf: 'flex-start' }}>
+      <button onClick={() => history.push('/')} style={{ alignSelf: 'flex-start' }}>
         Back
       </button>
       <h1>App title</h1>
@@ -65,7 +64,7 @@ const App = (props: PhoneProps) => {
       </div>
 
       <Footer>
-        <LinkItem to="/home" isDarkMode={props.settings.isDarkMode}>
+        <LinkItem to="/" isDarkMode={props.settings.isDarkMode}>
           Home
         </LinkItem>
       </Footer>

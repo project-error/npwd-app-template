@@ -48,8 +48,7 @@
     "react-dom": "^17.0.2",
     "react-fivem-hooks": "^1.0.1-2",
     "react-hot-loader": "^4.13.0",
-    "react-router": "^6.2.1",
-    "react-router-dom": "^6.2.1",
+    "react-router-dom": "^5.3.0",
     "styled-components": "^5.3.3"
   }
 }
