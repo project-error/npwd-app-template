@@ -3,18 +3,17 @@ import {AppIcon} from "./icon";
 
 const defaultLanguage = 'en';
 const localizedAppName = {
-  sv: 'Snabb',
-  en: 'Racing',
+  en: 'APP_NAME',
 };
 
 interface Settings {
-  language: 'sv' | 'en';
+  language: 'en';
 }
 
 export default (settings: Settings) => ({
-  id: 'WEATHER',
+  id: 'APP_NAME',
   nameLocale: localizedAppName[settings?.language ?? defaultLanguage],
-  color: '#222',
+  color: '#fff',
   backgroundColor: '#333',
   path: '/weather',
   icon: AppIcon,

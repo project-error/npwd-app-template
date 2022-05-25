@@ -56,6 +56,8 @@ const App = (props: PhoneProps) => {
       <h2>Data from client: {data}</h2>
 
       <p>Language is: {props.settings.language}</p>
+      
+      <h1>hello</h1>
 
       <div>
         <button onClick={() => setCount(prev => prev + 1)}>+</button>
