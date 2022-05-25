@@ -56,7 +56,7 @@ module.exports = {
 			name: 'weather',
 			filename: 'remoteEntry.js',
 			remotes: {
-				'npwd': 'layout@http://localhost:3000/remoteEntry.js'
+				'npwd': 'layout@https://cfx-nui-npwd/phone/dist/remoteEntry.js'
 			},
 			exposes: {
 				'./config': './npwd.config',

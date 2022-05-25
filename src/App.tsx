@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { useNuiEvent } from 'react-fivem-hooks';
 import { Link, useHistory } from 'react-router-dom';
 import styled from 'styled-components';
+//@ts-ignore
+import { TextField, Button } from 'npwd/ui';
 
 const Container = styled.div<{ isDarkMode: boolean }>`
   flex: 1;
@@ -43,6 +45,7 @@ interface PhoneProps {
 const App = (props: PhoneProps) => {
   const history = useHistory();
   const [count, setCount] = useState(0);
+  const [value, setValue] = useState('');
 
   const { data } = useNuiEvent<string>({ event: 'RANDOM' });
 
@@ -57,7 +60,9 @@ const App = (props: PhoneProps) => {
 
       <p>Language is: {props.settings.language}</p>
       
-      <h1>hello</h1>
+      <h1>{value}</h1>
+      
+      <TextField placeholer="Hello world" value={value} onChange={(e: any) => setValue((e.currentTarget.value))} />
 
       <div>
         <button onClick={() => setCount(prev => prev + 1)}>+</button>
