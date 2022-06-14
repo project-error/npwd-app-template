@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNuiEvent } from 'react-fivem-hooks';
 import { Link, useHistory } from 'react-router-dom';
 import styled from 'styled-components';
-//@ts-ignore
-import { TextField, Button } from 'npwd/ui';
+import { useSubscription } from "./hooks/useCustomEvents";
+import { useThemeMode } from "./atoms/app-atoms";
 
 const Container = styled.div<{ isDarkMode: boolean }>`
   flex: 1;
@@ -16,8 +16,8 @@ const Container = styled.div<{ isDarkMode: boolean }>`
   color: #212121;
 
   ${({ isDarkMode }) =>
-    isDarkMode &&
-    `
+	isDarkMode &&
+	`
     background-color: #212121;
     color: #fafafa;
   `}
@@ -35,48 +35,57 @@ const Footer = styled.footer`
 
 // These will come from some package.
 interface Settings {
-  isDarkMode: boolean;
-  language: 'sv' | 'en';
+	isDarkMode: boolean;
+	theme: any;
+	language: 'sv' | 'en';
 }
+
 interface PhoneProps {
-  settings: Settings;
+	settings: Settings;
 }
 
 const App = (props: PhoneProps) => {
-  const history = useHistory();
-  const [count, setCount] = useState(0);
-  const [value, setValue] = useState('');
-
-  const { data } = useNuiEvent<string>({ event: 'RANDOM' });
-
-  return (
-    <Container isDarkMode={props.settings.isDarkMode}>
-      <button onClick={() => history.push('/')} style={{ alignSelf: 'flex-start' }}>
-        Back
-      </button>
-      <h1>App title</h1>
-
-      <h2>Data from client: {data}</h2>
-
-      <p>Language is: {props.settings.language}</p>
-      
-      <h1>{value}</h1>
-      
-      <TextField placeholer="Hello world" value={value} onChange={(e: any) => setValue((e.currentTarget.value))} />
-
-      <div>
-        <button onClick={() => setCount(prev => prev + 1)}>+</button>
-        <button>{count}</button>
-        <button onClick={() => setCount(prev => prev - 1)}>-</button>
-      </div>
-
-      <Footer>
-        <LinkItem to="/" isDarkMode={props.settings.isDarkMode}>
-          Home
-        </LinkItem>
-      </Footer>
-    </Container>
-  );
+	const history = useHistory();
+	const [count, setCount] = useState(0);
+	const [value, setValue] = useState('');
+	const [isDarkMode, setIsDarkMode] = useThemeMode();
+	
+	
+	const { data } = useNuiEvent<string>({ event: 'RANDOM' });
+	
+	useSubscription('themeChanged', (theme: any) => {
+		const isDark = theme.detail.value === 'taso-dark'
+		
+		setIsDarkMode(isDark);
+	})
+	
+	
+	return (
+		<Container isDarkMode={isDarkMode}>
+			<button onClick={() => history.push('/')} style={{ alignSelf: 'flex-start' }}>
+				Back
+			</button>
+			<h1>App title</h1>
+			
+			<h2>Data from client: {data}</h2>
+			
+			<p>Language is: {props.settings.language}</p>
+			
+			<h1>{value}</h1>
+			
+			<div>
+				<button onClick={() => setCount(prev => prev + 1)}>+</button>
+				<button>{count}</button>
+				<button onClick={() => setCount(prev => prev - 1)}>-</button>
+			</div>
+			
+			<Footer>
+				<LinkItem to="/" isDarkMode={isDarkMode}>
+					Home
+				</LinkItem>
+			</Footer>
+		</Container>
+	);
 };
 
 export default App;

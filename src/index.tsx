@@ -7,6 +7,7 @@ import styled from 'styled-components';
 import App from './App';
 import image from './bg.png';
 import { NuiProvider } from 'react-fivem-hooks';
+import { RecoilRoot } from "recoil";
 
 const Container = styled.div`
   position: relative;
@@ -41,18 +42,21 @@ const AppContainer = styled.div`
 const settings = {
   isDarkMode: false,
   language: 'sv' as const,
+  theme: null,
 };
 
 const Root = () => (
   <BrowserRouter>
-    <NuiProvider>
-      <Container>
-        <Background src={image} />
-        <AppContainer>
-          <App settings={settings} />
-        </AppContainer>
-      </Container>
-    </NuiProvider>
+    <RecoilRoot>
+      <NuiProvider>
+        <Container>
+          <Background src={image} />
+          <AppContainer>
+            <App settings={settings} />
+          </AppContainer>
+        </Container>
+      </NuiProvider>
+    </RecoilRoot>
   </BrowserRouter>
 );
 
