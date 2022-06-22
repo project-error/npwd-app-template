@@ -47,12 +47,18 @@ interface PhoneProps {
 const App = (props: PhoneProps) => {
 	const history = useHistory();
 	const [count, setCount] = useState(0);
-	const [value, setValue] = useState('');
 	const [isDarkMode, setIsDarkMode] = useThemeMode();
 	
 	
 	const { data } = useNuiEvent<string>({ event: 'RANDOM' });
 	
+	useSubscription('initCustomApp', (event: any) => {
+		const isDark = event.detail.theme === 'taso-dark'
+		
+		setIsDarkMode(isDark);
+	})
+	
+	// Listen to theme changes
 	useSubscription('themeChanged', (theme: any) => {
 		const isDark = theme.detail.value === 'taso-dark'
 		
@@ -70,8 +76,6 @@ const App = (props: PhoneProps) => {
 			<h2>Data from client: {data}</h2>
 			
 			<p>Language is: {props.settings.language}</p>
-			
-			<h1>{value}</h1>
 			
 			<div>
 				<button onClick={() => setCount(prev => prev + 1)}>+</button>
