@@ -7,7 +7,7 @@ import styled from 'styled-components';
 import App from './App';
 import image from './bg.png';
 import { NuiProvider } from 'react-fivem-hooks';
-import { RecoilRoot } from "recoil";
+import { RecoilRoot } from 'recoil';
 
 const Container = styled.div`
   position: relative;
@@ -41,7 +41,7 @@ const AppContainer = styled.div`
 // Default settings will come from package. This is for development purposes.
 const settings = {
   isDarkMode: false,
-  language: 'sv' as const,
+  language: 'en' as const,
   theme: null,
 };
 
