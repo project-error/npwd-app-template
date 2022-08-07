@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { useNuiEvent } from 'react-fivem-hooks';
+import { NUIContext, NuiContext, NuiProvider, useNuiEvent } from 'react-fivem-hooks';
 import { Link, useHistory } from 'react-router-dom';
 import styled from 'styled-components';
-import { useSubscription } from './hooks/useCustomEvents';
-import { useThemeMode } from './atoms/app-atoms';
+
 import { IPhoneSettings } from '@project-error/npwd-types';
 import { i18n } from 'i18next';
+import { Theme } from '@mui/material';
 
 const Container = styled.div<{ isDarkMode: boolean }>`
   flex: 1;
@@ -35,49 +35,34 @@ const Footer = styled.footer`
   margin-top: auto;
 `;
 
-interface PhoneProps {
+interface AppProps {
+  theme: Theme;
   i18n: i18n;
   settings: IPhoneSettings;
 }
 
-const App = (props: PhoneProps) => {
+const App = (props: AppProps) => {
   const history = useHistory();
   const [count, setCount] = useState(0);
-  const [isDarkMode, setIsDarkMode] = useThemeMode();
-
   const { data } = useNuiEvent<string>({ event: 'RANDOM' });
 
-  useSubscription('initCustomApp', (event: any) => {
-    const isDark = event.detail.theme === 'taso-dark';
-
-    setIsDarkMode(isDark);
-  });
-
-  // Listen to theme changes
-  useSubscription('themeChanged', (theme: any) => {
-    const isDark = theme.detail.value === 'taso-dark';
-
-    setIsDarkMode(isDark);
-  });
+  const isDarkMode = props.theme.palette.mode === 'dark';
 
   return (
     <Container isDarkMode={isDarkMode}>
-      <button
-        onClick={() => history.push('/')}
-        style={{ alignSelf: 'flex-start' }}
-      >
+      <button onClick={() => history.push('/')} style={{ alignSelf: 'flex-start' }}>
         Back
       </button>
       <h1>App title</h1>
 
       <h2>Data from client: {data}</h2>
 
-      <p>Language is: {props.settings.language}</p>
+      <p>Language is: {props.settings.language.label}</p>
 
       <div>
-        <button onClick={() => setCount(prev => prev + 1)}>+</button>
+        <button onClick={() => setCount((prev) => prev + 1)}>+</button>
         <button>{count}</button>
-        <button onClick={() => setCount(prev => prev - 1)}>-</button>
+        <button onClick={() => setCount((prev) => prev - 1)}>-</button>
       </div>
 
       <Footer>
@@ -89,4 +74,10 @@ const App = (props: PhoneProps) => {
   );
 };
 
-export default App;
+const WithProviders: React.FC<AppProps> = (props) => (
+  <NuiProvider>
+    <App {...props} />
+  </NuiProvider>
+);
+
+export default WithProviders;

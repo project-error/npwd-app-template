@@ -1,5 +1,5 @@
 import App from './src/App';
-import {AppIcon} from "./icon";
+import { AppIcon } from './icon';
 
 const defaultLanguage = 'en';
 const localizedAppName = {
