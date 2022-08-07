@@ -64,8 +64,8 @@ const theme = createTheme({
  *   If you want to add more providers to the actual app inside NPWD you have to add them in APP.tsx.
  */
 
-const Root = () => (
-  <BrowserRouter>
+const Root = () => null;
+/*  <BrowserRouter>
     <RecoilRoot>
       <NuiProvider>
         <Container>
@@ -77,6 +77,6 @@ const Root = () => (
       </NuiProvider>
     </RecoilRoot>
   </BrowserRouter>
-);
+);*/
 
 ReactDOM.render(<Root />, document.getElementById('root'));

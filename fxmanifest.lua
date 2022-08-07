@@ -4,9 +4,9 @@ game "gta5"
 client_script 'dist/client.js'
 server_script 'dist/server.js'
 
-ui_page 'release/index.html'
+ui_page 'web/dist/index.html'
 
 files {
-    'release/index.html',
-    'release/*.js',
+    'web/dist/index.html',
+    'web/dist/*.js',
 }

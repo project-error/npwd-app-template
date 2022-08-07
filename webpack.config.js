@@ -52,7 +52,7 @@ module.exports = {
     extensions: ['.tsx', '.ts', '.js'],
   },
   output: {
-    path: path.resolve(__dirname, 'release'),
+    path: path.resolve(__dirname, 'web/dist'),
     publicPath: 'auto',
     clean: true,
   },
