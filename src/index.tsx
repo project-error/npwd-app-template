@@ -43,20 +43,20 @@ const AppContainer = styled.div`
 
 // Default settings will come from package. This is for development purposes.
 const settings = {
-  language: {
-    label: 'English',
-    value: 'en',
-  },
-  theme: {
-    label: 'Theme name',
-    value: 'theme-name',
-  },
+	language: {
+		label: 'English',
+		value: 'en',
+	},
+	theme: {
+		label: 'Theme name',
+		value: 'theme-name',
+	},
 } as IPhoneSettings;
 
 const theme = createTheme({
-  palette: {
-    mode: 'light',
-  },
+	palette: {
+		mode: 'light',
+	},
 });
 
 /*
@@ -64,19 +64,26 @@ const theme = createTheme({
  *   If you want to add more providers to the actual app inside NPWD you have to add them in APP.tsx.
  */
 
-const Root = () => null;
-/*  <BrowserRouter>
-    <RecoilRoot>
-      <NuiProvider>
-        <Container>
-          <Background src={image} />
-          <AppContainer>
-            <App settings={settings} i18n={i18next} theme={theme} />
-          </AppContainer>
-        </Container>
-      </NuiProvider>
-    </RecoilRoot>
-  </BrowserRouter>
-);*/
+const Root = () => {
+	
+	if (process.env.REACT_APP_IN_GAME) {
+		return null;
+	}
+	
+	return (
+		<BrowserRouter>
+			<RecoilRoot>
+				<NuiProvider>
+					<Container>
+						<Background src={image}/>
+						<AppContainer>
+							<App settings={settings} i18n={i18next} theme={theme}/>
+						</AppContainer>
+					</Container>
+				</NuiProvider>
+			</RecoilRoot>
+		</BrowserRouter>
+	)
+};
 
-ReactDOM.render(<Root />, document.getElementById('root'));
+ReactDOM.render(<Root/>, document.getElementById('root'));
