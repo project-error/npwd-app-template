@@ -5,7 +5,7 @@ import styled from 'styled-components';
 
 import { IPhoneSettings } from '@project-error/npwd-types';
 import { i18n } from 'i18next';
-import { Theme } from '@mui/material';
+import { Theme, StyledEngineProvider, ThemeProvider } from '@mui/material';
 
 const Container = styled.div<{ isDarkMode: boolean }>`
   flex: 1;
@@ -49,28 +49,32 @@ const App = (props: AppProps) => {
   const isDarkMode = props.theme.palette.mode === 'dark';
 
   return (
-    <Container isDarkMode={isDarkMode}>
-      <button onClick={() => history.push('/')} style={{ alignSelf: 'flex-start' }}>
-        Back
-      </button>
-      <h1>App title</h1>
+    <StyledEngineProvider injectFirst>
+      <ThemeProvider theme={props.theme}>
+        <Container isDarkMode={isDarkMode}>
+          <button onClick={() => history.push('/')} style={{ alignSelf: 'flex-start' }}>
+            Back
+          </button>
+          <h1>App title</h1>
 
-      <h2>Data from client: {data}</h2>
+          <h2>Data from client: {data}</h2>
 
-      <p>Language is: {props.settings.language.label}</p>
+          <p>Language is: {props.settings.language.label}</p>
 
-      <div>
-        <button onClick={() => setCount((prev) => prev + 1)}>+</button>
-        <button>{count}</button>
-        <button onClick={() => setCount((prev) => prev - 1)}>-</button>
-      </div>
+          <div>
+            <button onClick={() => setCount((prev) => prev + 1)}>+</button>
+            <button>{count}</button>
+            <button onClick={() => setCount((prev) => prev - 1)}>-</button>
+          </div>
 
-      <Footer>
-        <LinkItem to="/" isDarkMode={isDarkMode}>
-          Home
-        </LinkItem>
-      </Footer>
-    </Container>
+          <Footer>
+            <LinkItem to="/" isDarkMode={isDarkMode}>
+              Home
+            </LinkItem>
+          </Footer>
+        </Container>
+      </ThemeProvider>
+    </StyledEngineProvider>
   );
 };
 
