@@ -19,7 +19,6 @@
     "babel-loader": "8.2.3",
     "concurrently": "^7.0.0",
     "cross-env": "^7.0.3",
-    "dotenv": "^16.0.1",
     "html-webpack-plugin": "5.5.0",
     "react-refresh": "^0.11.0",
     "react-refresh-typescript": "^2.0.3",
@@ -32,9 +31,9 @@
     "yarn": "^1.22.17"
   },
   "scripts": {
-    "start": "webpack-cli serve",
+    "start": "cross-env REACT_APP_IN_GAME=1 webpack-cli serve",
     "build": "cross-env REACT_APP_IN_GAME=1 webpack --mode=production",
-    "dev": "webpack-dev-server --mode=development",
+    "dev": "cross-env REACT_APP_IN_GAME=0 webpack-dev-server --mode=development",
     "serve": "serve dist -p 3002",
     "clean": "rm -rf dist",
     "watch": "concurrently \"yarn watch:client\" \"yarn watch:server\"  \"yarn watch:nui\"",

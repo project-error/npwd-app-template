@@ -80,7 +80,7 @@ module.exports = {
       template: './src/index.html',
     }),
     new webpack.DefinePlugin({
-      process: { env: {} },
+      process: { env: { REACT_APP_IN_GAME: process.env.REACT_APP_IN_GAME } },
     }),
     isDevelopment && new ReactRefreshWebpackPlugin(),
   ].filter(Boolean),
