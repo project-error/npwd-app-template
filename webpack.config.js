@@ -79,6 +79,9 @@ module.exports = {
       cache: false,
       template: './src/index.html',
     }),
+    new webpack.DefinePlugin({
+      process: { env: {} },
+    }),
     isDevelopment && new ReactRefreshWebpackPlugin(),
   ].filter(Boolean),
 
