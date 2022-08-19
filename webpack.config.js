@@ -1,8 +1,9 @@
 const path = require('path');
 const webpack = require('webpack');
 const { ModuleFederationPlugin } = webpack.container;
-const deps = require('./package.json').dependencies;
+const packageJson = require('./package.json');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const { dependencies, name } = packageJson;
 
 // HMR
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
@@ -11,10 +12,9 @@ const isDevelopment = process.env.NODE_ENV === 'development';
 
 /* TODO: Fix for real */
 /* Probably bad way of fixing this */
-delete deps['@emotion/react'];
-delete deps['@emotion/styled'];
-delete deps['@mui/material'];
-delete deps['@mui/styles'];
+delete dependencies['@emotion/styled'];
+delete dependencies['@mui/material'];
+delete dependencies['@mui/styles'];
 
 module.exports = {
   entry: './src/bootstrap.ts',
@@ -58,20 +58,24 @@ module.exports = {
   },
   plugins: [
     new ModuleFederationPlugin({
-      name: 'template',
+      name,
       filename: 'remoteEntry.js',
       exposes: {
         './config': './npwd.config',
       },
       shared: {
-        ...deps,
+        ...dependencies,
         react: {
           singleton: true,
-          requiredVersion: deps.react,
+          requiredVersion: dependencies.react,
+        },
+        '@emotion/react': {
+          singleton: true,
+          requiredVersion: dependencies['@emotion/react'],
         },
         'react-dom': {
           singleton: true,
-          requiredVersion: deps['react-dom'],
+          requiredVersion: dependencies['react-dom'],
         },
       },
     }),

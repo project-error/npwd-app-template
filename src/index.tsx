@@ -1,3 +1,10 @@
+/*
+    NOTICE
+
+    This is not used in production.
+    Anything you put here will NOT get loaded into NPWD.
+*/
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 import '../npwd.config';
@@ -39,6 +46,7 @@ const AppContainer = styled.div`
   background-size: cover;
   background-repeat: no-repeat;
   border-radius: 20px;
+  overflow: hidden;
 `;
 
 // Default settings will come from package. This is for development purposes.

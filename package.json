@@ -1,5 +1,5 @@
 {
-  "name": "npwd-app",
+  "name": "npwd_default_template_app",
   "version": "0.0.0",
   "private": true,
   "devDependencies": {

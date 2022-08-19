@@ -5,30 +5,21 @@ import styled from 'styled-components';
 
 import { IPhoneSettings } from '@project-error/npwd-types';
 import { i18n } from 'i18next';
-import { Theme, StyledEngineProvider, ThemeProvider } from '@mui/material';
+import { Theme, StyledEngineProvider, Paper, Typography } from '@mui/material';
+import ThemeSwitchProvider from './ThemeSwitchProvider';
 
-const Container = styled.div<{ isDarkMode: boolean }>`
+const Container = styled(Paper)`
   flex: 1;
   padding: 1.5rem;
   display: flex;
-  box-sizing: border-box;
   flex-direction: column;
+  box-sizing: border-box;
   max-height: 100%;
-  background-color: #fafafa;
-  color: #212121;
-
-  ${({ isDarkMode }) =>
-    isDarkMode &&
-    `
-    background-color: #212121;
-    color: #fafafa;
-  `}
 `;
 
-const LinkItem = styled(Link)<{ isDarkMode: boolean }>`
+const LinkItem = styled(Link)`
   font-family: sans-serif;
   text-decoration: none;
-  color: ${({ isDarkMode }) => (isDarkMode ? '#fafafa' : '#222')};
 `;
 
 const Footer = styled.footer`
@@ -46,12 +37,10 @@ const App = (props: AppProps) => {
   const [count, setCount] = useState(0);
   const { data } = useNuiEvent<string>({ event: 'RANDOM' });
 
-  const isDarkMode = props.theme.palette.mode === 'dark';
-
   return (
     <StyledEngineProvider injectFirst>
-      <ThemeProvider theme={props.theme}>
-        <Container isDarkMode={isDarkMode}>
+      <ThemeSwitchProvider mode={props.theme.palette.mode}>
+        <Container>
           <button onClick={() => history.push('/')} style={{ alignSelf: 'flex-start' }}>
             Back
           </button>
@@ -68,12 +57,12 @@ const App = (props: AppProps) => {
           </div>
 
           <Footer>
-            <LinkItem to="/" isDarkMode={isDarkMode}>
-              Home
+            <LinkItem to="/">
+              <Typography>Home</Typography>
             </LinkItem>
           </Footer>
         </Container>
-      </ThemeProvider>
+      </ThemeSwitchProvider>
     </StyledEngineProvider>
   );
 };
