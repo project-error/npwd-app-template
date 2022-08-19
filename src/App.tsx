@@ -1,20 +1,39 @@
-import React, { useEffect, useState } from 'react';
-import { NUIContext, NuiContext, NuiProvider, useNuiEvent } from 'react-fivem-hooks';
-import { Link, useHistory } from 'react-router-dom';
+import React, { useState } from 'react';
+import { NuiProvider, useNuiEvent } from 'react-fivem-hooks';
+import { Link, NavLink, useHistory, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { IPhoneSettings } from '@project-error/npwd-types';
 import { i18n } from 'i18next';
-import { Theme, StyledEngineProvider, Paper, Typography } from '@mui/material';
+import {
+  Theme,
+  StyledEngineProvider,
+  Paper,
+  Typography,
+  BottomNavigation,
+  BottomNavigationAction,
+} from '@mui/material';
 import ThemeSwitchProvider from './ThemeSwitchProvider';
+import { HomeRounded, InfoRounded } from '@mui/icons-material';
+import Header, { HEADER_HEIGHT } from './components/Header';
+import { path } from '../npwd.config';
 
 const Container = styled(Paper)`
   flex: 1;
-  padding: 1.5rem;
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
   max-height: 100%;
+`;
+
+const Content = styled.div`
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  padding: 1.5rem;
+  max-height: calc(100% - 3.5rem - ${HEADER_HEIGHT});
+  overflow: auto;
 `;
 
 const LinkItem = styled(Link)`
@@ -37,30 +56,61 @@ const App = (props: AppProps) => {
   const [count, setCount] = useState(0);
   const { data } = useNuiEvent<string>({ event: 'RANDOM' });
 
+  const { pathname } = useLocation();
+  const [page, setPage] = useState(pathname);
+
+  const handleChange = (_e: any, newPage: any) => {
+    setPage(newPage);
+  };
+
   return (
     <StyledEngineProvider injectFirst>
       <ThemeSwitchProvider mode={props.theme.palette.mode}>
-        <Container>
-          <button onClick={() => history.push('/')} style={{ alignSelf: 'flex-start' }}>
-            Back
-          </button>
-          <h1>App title</h1>
+        <Container square elevation={0}>
+          <Header>Template app</Header>
+          <Content>
+            <button onClick={() => history.push('/')} style={{ alignSelf: 'flex-start' }}>
+              Back
+            </button>
 
-          <h2>Data from client: {data}</h2>
+            <div>
+              <h1>Template app - Heading 1</h1>
+              <h2>Data from client: {data}</h2>
+              <h3>You are at {page}</h3>
 
-          <p>Language is: {props.settings.language.label}</p>
+              <p>Language is: {props.settings.language.label}</p>
 
-          <div>
-            <button onClick={() => setCount((prev) => prev + 1)}>+</button>
-            <button>{count}</button>
-            <button onClick={() => setCount((prev) => prev - 1)}>-</button>
-          </div>
+              <div>
+                <button onClick={() => setCount((prev) => prev + 1)}>+</button>
+                <button>{count}</button>
+                <button onClick={() => setCount((prev) => prev - 1)}>-</button>
+              </div>
+            </div>
 
-          <Footer>
-            <LinkItem to="/">
-              <Typography>Home</Typography>
-            </LinkItem>
-          </Footer>
+            <Footer>
+              <LinkItem to="/">
+                <Typography>Home</Typography>
+              </LinkItem>
+            </Footer>
+          </Content>
+
+          <BottomNavigation value={page} onChange={handleChange} showLabels>
+            <BottomNavigationAction
+              label={'Home'}
+              value="/home"
+              component={NavLink}
+              icon={<HomeRounded />}
+              to={path}
+            />
+            <BottomNavigationAction
+              label={'About'}
+              value="/about"
+              color="secondary"
+              component={NavLink}
+              icon={<InfoRounded />}
+              to={path}
+            />
+          </BottomNavigation>
         </Container>
       </ThemeSwitchProvider>
     </StyledEngineProvider>
