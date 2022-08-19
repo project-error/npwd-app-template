@@ -9,7 +9,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import '../npwd.config';
 
-import { BrowserRouter } from 'react-router-dom';
+import { HashRouter } from 'react-router-dom';
 import styled from 'styled-components';
 import App from './App';
 import image from './bg.png';
@@ -78,7 +78,7 @@ const Root = () => {
   }
 
   return (
-    <BrowserRouter>
+    <HashRouter>
       <RecoilRoot>
         <NuiProvider>
           <Container>
@@ -89,7 +89,7 @@ const Root = () => {
           </Container>
         </NuiProvider>
       </RecoilRoot>
-    </BrowserRouter>
+    </HashRouter>
   );
 };
 
