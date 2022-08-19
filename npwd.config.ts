@@ -10,12 +10,13 @@ interface Settings {
   language: 'en';
 }
 
+export const path = '/npwd_app_template';
 export default (settings: Settings) => ({
   id: 'APP_NAME',
+  path,
   nameLocale: localizedAppName[settings?.language ?? defaultLanguage],
   color: '#fff',
   backgroundColor: '#333',
-  path: '/weather',
   icon: AppIcon,
   app: App,
 });
