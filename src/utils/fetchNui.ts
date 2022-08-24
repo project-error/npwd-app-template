@@ -1,3 +1,5 @@
+import PackageJSON from '../../package.json';
+
 /**
  * Simple wrapper around fetch API tailored for CEF/NUI use.
  * @param eventName - The endpoint eventname to target
@@ -8,28 +10,23 @@
 import { isEnvBrowser } from './misc';
 
 async function fetchNui<T = any, D = any>(eventName: string, data?: D, mockResp?: T): Promise<T> {
-	const options = {
-		method: 'post',
-		headers: {
-			'Content-Type': 'application/json; charset=UTF-8',
-		},
-		body: JSON.stringify(data),
-	};
-	
-	if (isEnvBrowser() && mockResp) {
-		return mockResp;
-	}
-	
-	const resourceName = (window as any).GetParentResourceName
-		? (window as any).GetParentResourceName()
-		: 'npwd';
-	
-	const resp = await fetch(`https://${resourceName}/${eventName}`, options);
-	
-	const responseObj = await resp.json();
-	
-	
-	return responseObj;
+  const options = {
+    method: 'post',
+    headers: {
+      'Content-Type': 'application/json; charset=UTF-8',
+    },
+    body: JSON.stringify(data),
+  };
+
+  if (isEnvBrowser() && mockResp) {
+    return mockResp;
+  }
+
+  const resp = await fetch(`https://${PackageJSON.name}/${eventName}`, options);
+
+  const responseObj = await resp.json();
+
+  return responseObj;
 }
 
 export default fetchNui;
