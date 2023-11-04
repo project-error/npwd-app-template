@@ -28,6 +28,13 @@ export default defineConfig({
       promiseImportName: i => `__tla_${i}`
     })
   ],
+  define: {
+    process: {
+      env: { 
+        VITE_REACT_APP_IN_GAME: process.env.VITE_REACT_APP_IN_GAME,
+      }
+    }
+  },
   server: {
     port: 3002,
   },

@@ -62,6 +62,13 @@ function App(props: AppProps) {
 
   console.log("MOCK APP PROPS", props)
 
+  console.log("meta env", import.meta.env)
+  console.log("meta env in game", import.meta.env.VITE_REACT_APP_IN_GAME)
+  console.log("env in game", process.env.VITE_REACT_APP_IN_GAME)
+
+  console.log("is prod", import.meta.env.PROD)
+
+  console.log("meta env mode", import.meta.env.MODE)
   return (
     <StyledEngineProvider injectFirst>
       <ThemeSwitchProvider mode='dark'>
@@ -72,6 +79,10 @@ function App(props: AppProps) {
               <h1>Template app - Heading 1</h1>
 
               <h3>You are at {pathname}</h3>
+
+              {import.meta.env.MODE === 'game' && (
+                <h3>Running in game</h3>
+              )}
 
               <button onClick={history.goBack}>
                 Back to home
