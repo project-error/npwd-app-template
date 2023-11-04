@@ -80,6 +80,8 @@ function App(props: AppProps) {
 
               <h3>You are at {pathname}</h3>
 
+              <h2>Hello world ok good nice</h2>
+
               {import.meta.env.MODE === 'game' && (
                 <h3>Running in game</h3>
               )}

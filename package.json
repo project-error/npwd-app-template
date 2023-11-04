@@ -27,8 +27,9 @@
   },
   "scripts": {
     "dev": "vite --mode dev",
-    "build": "vite build --mode production",
+    "dev:browser": "concurrently \"build:watch --mode dev\" \"preview:dev\"",
     "build:dev": "vite build --mode dev",
+    "build:watch": "vitre build --watch",
     "build:game": "vite build --mode game",
     "preview:dev": "vite preview --mode dev",
     "clean": "rm -rf dist",
