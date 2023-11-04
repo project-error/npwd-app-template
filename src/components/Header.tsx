@@ -1,5 +1,4 @@
 import React, { ReactNode } from 'react';
-import { APP_PRIMARY_COLOR } from '../app.theme';
 import { Typography, Box, useTheme } from '@mui/material';
 import styled from '@emotion/styled';
 

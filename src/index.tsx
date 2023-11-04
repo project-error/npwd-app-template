@@ -10,14 +10,14 @@ import ReactDOM from 'react-dom';
 import '../npwd.config';
 
 import { HashRouter } from 'react-router-dom';
-import styled from 'styled-components';
+import styled from '@emotion/styled';
 import App from './App';
 import image from './bg.png';
 import { NuiProvider } from 'react-fivem-hooks';
 import { RecoilRoot } from 'recoil';
-import { IPhoneSettings } from '@project-error/npwd-types';
 import i18next from 'i18next';
 import { createTheme } from '@mui/material';
+import { lightTheme } from './app.theme';
 
 const Container = styled.div`
   position: relative;
@@ -59,13 +59,7 @@ const settings = {
     label: 'Theme name',
     value: 'theme-name',
   },
-} as IPhoneSettings;
-
-const theme = createTheme({
-  palette: {
-    mode: 'light',
-  },
-});
+} as any;
 
 /*
  *   Providers loaded here will only be applied to the development environment.
@@ -73,21 +67,20 @@ const theme = createTheme({
  */
 
 const Root = () => {
-  if (process.env.REACT_APP_IN_GAME) {
-    return null;
-  }
 
   return (
     <HashRouter>
       <RecoilRoot>
-        <NuiProvider>
-          <Container>
-            <Background src={image} />
-            <AppContainer>
-              <App settings={settings} i18n={i18next} theme={theme} />
-            </AppContainer>
-          </Container>
-        </NuiProvider>
+        <React.Suspense fallback="LOOOOL">
+          <NuiProvider>
+            <Container>
+              <Background src={image} />
+              <AppContainer>
+                <App settings={settings} i18n={i18next} theme={createTheme(lightTheme)} />
+              </AppContainer>
+            </Container>
+          </NuiProvider>
+        </React.Suspense>
       </RecoilRoot>
     </HashRouter>
   );

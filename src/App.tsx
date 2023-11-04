@@ -1,22 +1,20 @@
 import React, { useState } from 'react';
-import { NuiProvider, useNuiEvent } from 'react-fivem-hooks';
-import { Link, NavLink, useHistory, useLocation } from 'react-router-dom';
-import styled from 'styled-components';
 
-import { IPhoneSettings } from '@project-error/npwd-types';
 import { i18n } from 'i18next';
 import {
   Theme,
-  StyledEngineProvider,
   Paper,
   Typography,
   BottomNavigation,
   BottomNavigationAction,
+  StyledEngineProvider
 } from '@mui/material';
-import ThemeSwitchProvider from './ThemeSwitchProvider';
-import { HomeRounded, InfoRounded } from '@mui/icons-material';
 import Header, { HEADER_HEIGHT } from './components/Header';
+import styled from '@emotion/styled';
+import {  Link, NavLink, useHistory, useLocation } from 'react-router-dom';
 import { path } from '../npwd.config';
+import { HomeRounded, InfoRounded } from '@mui/icons-material';
+import ThemeSwitchProvider from './ThemeSwitchProvider';
 
 const Container = styled(Paper)`
   flex: 1;
@@ -25,6 +23,12 @@ const Container = styled(Paper)`
   box-sizing: border-box;
   max-height: 100%;
 `;
+
+const LinkItem = styled(Link)`
+  font-family: sans-serif;
+  text-decoration: none;
+`;
+
 
 const Content = styled.div`
   flex: 1;
@@ -36,11 +40,6 @@ const Content = styled.div`
   overflow: auto;
 `;
 
-const LinkItem = styled(Link)`
-  font-family: sans-serif;
-  text-decoration: none;
-`;
-
 const Footer = styled.footer`
   margin-top: auto;
 `;
@@ -48,44 +47,37 @@ const Footer = styled.footer`
 interface AppProps {
   theme: Theme;
   i18n: i18n;
-  settings: IPhoneSettings;
+  settings: any;
 }
 
-const App = (props: AppProps) => {
+function App(props: AppProps) {
   const history = useHistory();
-  const [count, setCount] = useState(0);
-  const { data } = useNuiEvent<string>({ event: 'RANDOM' });
-
   const { pathname } = useLocation();
+
   const [page, setPage] = useState(pathname);
 
   const handleChange = (_e: any, newPage: any) => {
     setPage(newPage);
   };
 
+  console.log("MOCK APP PROPS", props)
+
   return (
     <StyledEngineProvider injectFirst>
-      <ThemeSwitchProvider mode={props.theme.palette.mode}>
-        <Container square elevation={0}>
+      <ThemeSwitchProvider mode='dark'>
+      <Container square elevation={0}>
           <Header>Template app</Header>
           <Content>
-            <button onClick={() => history.push('/')} style={{ alignSelf: 'flex-start' }}>
-              Back
-            </button>
-
             <div>
               <h1>Template app - Heading 1</h1>
-              <h2>Data from client: {data}</h2>
-              <h3>You are at {page}</h3>
 
-              <p>Language is: {props.settings.language.label}</p>
+              <h3>You are at {pathname}</h3>
 
-              <div>
-                <button onClick={() => setCount((prev) => prev + 1)}>+</button>
-                <button>{count}</button>
-                <button onClick={() => setCount((prev) => prev - 1)}>-</button>
-              </div>
+              <button onClick={history.goBack}>
+                Back to home
+              </button>
             </div>
+
 
             <Footer>
               <LinkItem to="/">
@@ -95,32 +87,32 @@ const App = (props: AppProps) => {
           </Content>
 
           <BottomNavigation value={page} onChange={handleChange} showLabels>
-            <BottomNavigationAction
+          <BottomNavigationAction
               label={'Home'}
               value="/home"
-              component={NavLink}
               icon={<HomeRounded />}
+              component={NavLink}
               to={path}
             />
             <BottomNavigationAction
               label={'About'}
               value="/about"
               color="secondary"
-              component={NavLink}
               icon={<InfoRounded />}
+              component={NavLink}
               to={path}
             />
           </BottomNavigation>
+
         </Container>
       </ThemeSwitchProvider>
-    </StyledEngineProvider>
+  
+      </StyledEngineProvider>
   );
 };
 
-const WithProviders: React.FC<AppProps> = (props) => (
-  <NuiProvider>
+export default function WithProviders(props: AppProps) {
+  return (
     <App {...props} />
-  </NuiProvider>
-);
-
-export default WithProviders;
+  )
+}

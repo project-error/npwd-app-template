@@ -1,20 +1,15 @@
 import App from './src/App';
 import { AppIcon } from './icon';
 
-const defaultLanguage = 'en';
-const localizedAppName = {
-  en: 'APP_NAME',
-};
-
 interface Settings {
   language: 'en';
 }
 
-export const path = '/npwd_app_template';
+export const path = '/mockapp';
 export default (settings: Settings) => ({
-  id: 'APP_NAME',
+  id: 'MOCKAPP',
   path,
-  nameLocale: localizedAppName[settings?.language ?? defaultLanguage],
+  nameLocale: "Mockapp", 
   color: '#fff',
   backgroundColor: '#333',
   icon: AppIcon,
