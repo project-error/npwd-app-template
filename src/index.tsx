@@ -67,6 +67,7 @@ const settings = {
  */
 
 const Root = () => {
+  if (import.meta.env.PROD) return null;
 
   return (
     <HashRouter>
