@@ -13,7 +13,7 @@ import { HashRouter } from 'react-router-dom';
 import styled from '@emotion/styled';
 import App from './App';
 import image from './bg.png';
-import { NuiProvider } from 'react-fivem-hooks';
+import { NuiProvider } from 'fivem-nui-react-lib';
 import { RecoilRoot } from 'recoil';
 import i18next from 'i18next';
 import { createTheme } from '@mui/material';
@@ -73,7 +73,7 @@ const Root = () => {
     <HashRouter>
       <RecoilRoot>
         <React.Suspense fallback="LOOOOL">
-          <NuiProvider>
+          <NuiProvider resource='mockapp'>
             <Container>
               <Background src={image} />
               <AppContainer>

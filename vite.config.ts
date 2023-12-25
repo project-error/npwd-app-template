@@ -14,12 +14,12 @@ export default defineConfig({
   plugins: [
     react(),
     federation({
-      name: 'mockapp',
+      name: 'npwd_mockapp',
       filename: 'remoteEntry.js',
       exposes: {
         './config': './npwd.config.ts',
       },
-      shared: ['react', 'react-dom', '@emotion/react', 'react-router-dom'],
+      shared: ['react', 'react-dom', '@emotion/react', 'react-router-dom', 'fivem-nui-react-lib'],
     }),
     topLevelAwait({
       // The export name of top-level await promise for each chunk module
