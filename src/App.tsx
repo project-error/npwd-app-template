@@ -15,8 +15,8 @@ import { Link, NavLink, useHistory, useLocation } from 'react-router-dom';
 import { path } from '../npwd.config';
 import { HomeRounded, InfoRounded } from '@mui/icons-material';
 import ThemeSwitchProvider from './ThemeSwitchProvider';
-import { NuiProvider } from 'fivem-nui-react-lib';
 import { RecoilRoot } from 'recoil';
+import { useNuiEvent } from './hooks/useNuiEvent';
 
 const Container = styled(Paper)`
   flex: 1;
@@ -54,62 +54,66 @@ interface AppProps {
 export function App(props: AppProps) {
   const history = useHistory();
   const { pathname } = useLocation();
+  const [nuiData, setNuiData] = useState(null);
 
   const [page, setPage] = useState(pathname);
 
-  const handleChange = (_e: any, newPage: any) => {
-    setPage(newPage);
-  };
+  useNuiEvent('MOCKAPP', 'setRandomData', (data) => {
+    console.log(data);
+    setNuiData(data);
+  });
 
-  console.log('meta env', import.meta.env);
-  console.log('meta env in game', import.meta.env.VITE_REACT_APP_IN_GAME);
-  console.log('env in game', process.env.VITE_REACT_APP_IN_GAME);
+  //setPage(newPage);
+  const handleChange = (_e: any, newPage: any) => {};
 
-  console.log('is prod', import.meta.env.PROD);
-
-  console.log('meta env mode', import.meta.env.MODE);
   return (
     <StyledEngineProvider injectFirst>
-      <Container square elevation={0}>
-        <Header>Template app</Header>
-        <Content>
-          <div>
-            <h1>Template app - Heading 1</h1>
+      <ThemeSwitchProvider mode={props.theme.palette.mode}>
+        <Container square elevation={0}>
+          <Header>Template app</Header>
+          <Content>
+            <div>
+              <h1>Template app - Heading 1</h1>
+              <h3>You are at {pathname}</h3>
 
-            <h3>You are at {pathname}</h3>
+              {import.meta.env.MODE === 'game' && <h3>Running in game</h3>}
 
-            <h2>Hello world ok good nice</h2>
+              <button onClick={history.goBack}>Back to home</button>
 
-            {import.meta.env.MODE === 'game' && <h3>Running in game</h3>}
+              {nuiData && (
+                <div>
+                  <h3>Random data from NUI</h3>
+                  <p>{JSON.stringify(nuiData)}</p>
+                </div>
+              )}
+            </div>
 
-            <button onClick={history.goBack}>Back to home</button>
-          </div>
+            <Footer>
+              <LinkItem to="/">
+                <Typography>Home</Typography>
+              </LinkItem>
+            </Footer>
+          </Content>
 
-          <Footer>
-            <LinkItem to="/">
-              <Typography>Home</Typography>
-            </LinkItem>
-          </Footer>
-        </Content>
-
-        <BottomNavigation value={page} onChange={handleChange} showLabels>
-          <BottomNavigationAction
-            label={'Home'}
-            value="/home"
-            icon={<HomeRounded />}
-            component={NavLink}
-            to={path}
-          />
-          <BottomNavigationAction
-            label={'About'}
-            value="/about"
-            color="secondary"
-            icon={<InfoRounded />}
-            component={NavLink}
-            to={path}
-          />
-        </BottomNavigation>
-      </Container>
+          <BottomNavigation value={page} onChange={handleChange} showLabels>
+            <BottomNavigationAction
+              label={'Home'}
+              value="/home"
+              icon={<HomeRounded />}
+              component={NavLink}
+              to={path}
+            />
+            <BottomNavigationAction
+              label={'About'}
+              value="/about"
+              color="secondary"
+              icon={<InfoRounded />}
+              component={NavLink}
+              to={path}
+            />
+          </BottomNavigation>
+        </Container>
+      </ThemeSwitchProvider>
     </StyledEngineProvider>
   );
 }
@@ -117,9 +121,7 @@ export function App(props: AppProps) {
 export default function WithProviders(props: AppProps) {
   return (
     <RecoilRoot override key="mockapp">
-      <NuiProvider resource="mockapp">
-        <App {...props} />
-      </NuiProvider>
+      <App {...props} />
     </RecoilRoot>
   );
 }
