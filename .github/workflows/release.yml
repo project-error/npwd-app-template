@@ -1,0 +1,64 @@
+name: Build & Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install root dependencies
+        run: npm install
+
+      - name: Install web dependencies
+        run: cd web && npm install
+
+      - name: Build game scripts
+        run: node scripts/build.mjs
+
+      - name: Build NUI bundle
+        run: cd web && npx vite build
+
+      - name: Get resource name
+        id: meta
+        run: |
+          NAME=$(node -p "require('./package.json').name")
+          echo "name=$NAME" >> "$GITHUB_OUTPUT"
+
+      - name: Package release
+        run: |
+          mkdir -p release/${{ steps.meta.outputs.name }}
+          cp fxmanifest.lua release/${{ steps.meta.outputs.name }}/
+          cp -r dist release/${{ steps.meta.outputs.name }}/
+          cd release && zip -r ../${{ steps.meta.outputs.name }}.zip ${{ steps.meta.outputs.name }}/
+
+      - name: Compute SHA-256
+        id: hash
+        run: |
+          HASH=$(sha256sum ${{ steps.meta.outputs.name }}.zip | cut -d' ' -f1)
+          echo "sha256=$HASH" >> "$GITHUB_OUTPUT"
+          echo "SHA-256: $HASH"
+
+      - name: Create release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: ${{ steps.meta.outputs.name }}.zip
+          body: |
+            ## ${{ github.ref_name }}
+
+            **SHA-256:** `${{ steps.hash.outputs.sha256 }}`
+
+            ### Install
+            ```
+            npwd-store install <app-id>
+            ```
