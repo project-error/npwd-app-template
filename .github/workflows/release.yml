@@ -29,11 +29,13 @@ jobs:
       - name: Build NUI bundle
         run: cd web && npx vite build
 
-      - name: Get resource name
+      - name: Get metadata
         id: meta
         run: |
           NAME=$(node -p "require('./package.json').name")
+          VERSION=${GITHUB_REF_NAME#v}
           echo "name=$NAME" >> "$GITHUB_OUTPUT"
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
 
       - name: Package release
         run: |
@@ -62,3 +64,22 @@ jobs:
             ```
             npwd-store install <app-id>
             ```
+
+      # To auto-update the NPWD registry, add a REGISTRY_PAT secret
+      # (a GitHub PAT with repo scope for project-error/npwd-registry)
+      # and uncomment the step below, replacing <app-id> with your app ID.
+      #
+      # - name: Update registry
+      #   uses: peter-evans/repository-dispatch@v3
+      #   with:
+      #     token: ${{ secrets.REGISTRY_PAT }}
+      #     repository: project-error/npwd-registry
+      #     event-type: app-release
+      #     client-payload: |
+      #       {
+      #         "id": "<app-id>",
+      #         "version": "${{ steps.meta.outputs.version }}",
+      #         "downloadUrl": "https://github.com/${{ github.repository }}/releases/download/${{ github.ref_name }}/${{ steps.meta.outputs.name }}.zip",
+      #         "sha256": "${{ steps.hash.outputs.sha256 }}",
+      #         "releasedAt": "${{ github.event.head_commit.timestamp }}"
+      #       }
